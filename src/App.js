@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 export default function App() {
-  async function submitToAI() {
+  /*async function submitToAI() {
   setLoading(true);
   setError("");
 
@@ -25,7 +25,7 @@ export default function App() {
   } finally {
     setLoading(false);
   }
-}
+}*/
   const [form, setForm] = useState({
     // time
     date: "",
