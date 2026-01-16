@@ -4,13 +4,12 @@ export default function App() {
   /*async function submitToAI() {
   setLoading(true);
   setError("");
+  setPrediction(null);
 
   try {
     const response = await fetch("/api/message", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form)
     });
 
@@ -19,13 +18,17 @@ export default function App() {
     }
 
     const result = await response.json();
-    alert("AI Result: " + JSON.stringify(result));
+
+    // Example expected result: { severity: 1 | 2 | 3 | 4 }
+    setPrediction(result);
+
   } catch (e) {
     setError(e.message || "Failed to reach AI API");
   } finally {
     setLoading(false);
   }
-}*/
+}
+*/
   const [form, setForm] = useState({
     // time
     date: "",
@@ -56,6 +59,7 @@ export default function App() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [prediction, setPrediction] = useState(null);
 
   function update(key, value) {
     setForm(prev => ({ ...prev, [key]: value }));
@@ -217,9 +221,24 @@ export default function App() {
           //onClick={submitToAI}
           disabled={loading}
         >
-          {loading ? "Predictiong severity..." : "Predict Severity via AI"}
+          {loading ? "Predicting severity..." : "Predict Severity via AI"}
         </button>
 
+        {prediction && (
+          <Section title="🧠 Prediction Result">
+            <div style={{
+              padding: "1rem",
+              borderRadius: "10px",
+              background: severityColor(prediction.severity),
+              color: "#fff"
+            }}>
+              <h3 style={{ marginTop: 0 }}>
+                Predicted Severity: {prediction.severity}
+              </h3>
+              <p>{severityExplanation(prediction.severity)}</p>
+            </div>
+          </Section>
+        )}
       </div>
     </div>
   );
