@@ -335,7 +335,7 @@ function severityExplanation(s) {
   ][s - 1] || "Unknown severity";
 }
 function severityColor(s) {
-  return ["#bfecd0","#fde68a","#fdba74","#fca5a5"][s - 1] || "#cbd5e1";
+  return ["#619675","#d1bb61","#eea558","#fca5a5"][s - 1] || "#cbd5e1";
 }
 
 const styles = {
