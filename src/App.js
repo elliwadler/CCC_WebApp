@@ -230,15 +230,6 @@ export default function App() {
           </Grid>
         </Section>
 
-        <Section title="Location">
-          <Grid>
-            <Input label="Latitude" value={form["Start_Lat"]}
-              onChange={v => update("Start_Lat", v)} />
-            <Input label="Longitude" value={form["Start_Lng"]}
-              onChange={v => update("Start_Lng", v)} />
-          </Grid>
-        </Section>
-
         <Section title="Weather">
           <Grid>
             <Input label="Temperature (°F)" value={form["Temperature(F)"]}
