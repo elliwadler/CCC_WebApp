@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import MapPicker from "./MapPicker";
+
 
 /* ---------- encoders & helpers ---------- */
 
@@ -17,6 +19,20 @@ function num(v, fallback = 0) {
   const n = Number(v);
   return Number.isFinite(n) ? n : fallback;
 }
+
+function HelpText({ children }) {
+  return (
+    <div style={{
+      fontSize: "0.8rem",
+      color: "#64748b",
+      marginBottom: "0.6rem",
+      lineHeight: 1.4
+    }}>
+      ℹ️ {children}
+    </div>
+  );
+}
+
 
 export default function App() {
   const [form, setForm] = useState({
@@ -46,14 +62,6 @@ export default function App() {
   function update(key, value) {
     setForm(prev => ({ ...prev, [key]: value }));
   }
-
-  /* ---------- location ---------- */
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(pos => {
-      update("Start_Lat", pos.coords.latitude.toFixed(6));
-      update("Start_Lng", pos.coords.longitude.toFixed(6));
-    });
-  }, []);
 
   /* ---------- weather ---------- */
   async function autofillWeather() {
@@ -191,6 +199,35 @@ export default function App() {
           <Input label="Duration (minutes)"
             value={form["Time_Duration(min)"]}
             onChange={v => update("Time_Duration(min)", v)} />
+        </Section>
+
+        <Section title="Location">
+          <HelpText>
+            Click on the map to select the accident location.
+            Latitude and longitude will be filled automatically.
+          </HelpText>
+
+          <MapPicker
+            lat={Number(form["Start_Lat"])}
+            lng={Number(form["Start_Lng"])}
+            onSelect={(lat, lng) => {
+              update("Start_Lat", lat.toFixed(6));
+              update("Start_Lng", lng.toFixed(6));
+            }}
+          />
+
+          <Grid>
+            <Input
+              label="Latitude"
+              value={form["Start_Lat"]}
+              onChange={v => update("Start_Lat", v)}
+            />
+            <Input
+              label="Longitude"
+              value={form["Start_Lng"]}
+              onChange={v => update("Start_Lng", v)}
+            />
+          </Grid>
         </Section>
 
         <Section title="Location">
@@ -345,7 +382,7 @@ const styles = {
   },
   page: {
     minHeight: "100vh",
-    background: "#aacef0",
+    background: "#d7edbe",
     padding: "2rem",
     fontFamily:
       "-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, Helvetica, Arial, sans-serif"
@@ -438,5 +475,19 @@ const styles = {
     marginTop: "1rem",
     color: "#ef4444",
     fontSize: "0.85rem"
-  }
+  },
+  weatherButton: {
+  marginTop: "1rem",
+  padding: "0.7rem 1.2rem",
+  borderRadius: "12px",
+  border: "none",
+  background: "#6366f1",
+  color: "#ffffff",
+  fontWeight: 600,
+  cursor: "pointer",
+  display: "inline-flex",
+  alignItems: "center",
+  gap: "0.4rem",
+  boxShadow: "0 8px 20px rgba(99,102,241,0.25)"
+}
 };
